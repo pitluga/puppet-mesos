@@ -12,11 +12,12 @@
 # always use 'mesos::slave' or 'mesos:master'
 #
 class mesos::config(
-  $log_dir  = '/var/log/mesos',
-  $ulimit   = '8192',
-  $conf_dir = '/etc/mesos',
-  $owner    = 'root',
-  $group    = 'root',
+  $log_dir   = '/var/log/mesos',
+  $ulimit    = '8192',
+  $conf_dir  = '/etc/mesos',
+  $zookeeper = undef,
+  $owner     = 'root',
+  $group     = 'root',
 ){
 
   file { $log_dir:
@@ -34,6 +35,15 @@ class mesos::config(
   file { '/etc/default/mesos':
     ensure  => 'present',
     content => template('mesos/default.erb'),
+    owner   => $owner,
+    group   => $group,
+    mode    => '0644',
+    require => Package['mesos'],
+  }
+
+  file { "${conf_dir}/zk":
+    ensure => 'present',
+    content => template('mesos/zk.erb'),
     owner   => $owner,
     group   => $group,
     mode    => '0644',

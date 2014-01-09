@@ -32,6 +32,27 @@ describe 'mesos::config' do
     ).with_content(/ULIMIT="-n 8192"/)
   end
 
+  context 'no zookeeper servers' do
+    it 'has empty zk file in config dir' do
+      should contain_file(
+        '/etc/mesos/zk'
+      ).with_content("\n")
+    end
+  end
+
+  context 'with zookeeper serers' do
+    let(:zookeeper) { 'zk://localhost:2181/mesos' }
+    let(:params){{
+      :zookeeper => zookeeper
+    }}
+
+    it 'has zk file in config dir' do
+      should contain_file(
+        '/etc/mesos/zk'
+      ).with_content(/#{zookeeper}/)
+    end
+  end
+
   context 'setting ulimit' do
     let(:params){{
       :ulimit => 16384,
