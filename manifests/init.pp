@@ -31,6 +31,7 @@ class mesos(
   $master_port  = hiera('mesos::master_port', '5050')
   $owner        = hiera('mesos::owner', 'root')
   $group        = hiera('mesos::group', 'root')
+  $install_python = hiera('mesos::install_python', true)
 
   class {'mesos::install':
     ensure => $ensure,

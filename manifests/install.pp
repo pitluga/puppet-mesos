@@ -11,6 +11,7 @@
 #
 class mesos::install(
   $ensure = $mesos::ensure,
+  $install_python = $mesos::install_python
 ) {
   # 'ensure_packages' requires puppetlabs/stdlib
   #
@@ -18,8 +19,9 @@ class mesos::install(
   # with usage of cgroups, requires kernel >= 2.6.24
   #
   # Python is required for web GUI (mesos could be build without GUI)
-  # TODO: make this optional
-  ensure_packages(['python'])
+  if ($install_python == true) {
+    ensure_packages(['python'])
+  }
 
   # a debian (or other binary package) must be available,
   # see https://github.com/deric/mesos-deb-packaging
