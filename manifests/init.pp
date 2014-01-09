@@ -37,11 +37,12 @@ class mesos(
   }
 
   class {'mesos::config':
-    log_dir  => $log_dir,
-    conf_dir => $conf_dir,
-    owner    => $owner,
-    group    => $group,
-    require  => Class['mesos::install']
+    log_dir   => $log_dir,
+    conf_dir  => $conf_dir,
+    zookeeper => $zookeeper,
+    owner     => $owner,
+    group     => $group,
+    require   => Class['mesos::install']
   }
 
 }
